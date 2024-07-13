@@ -1,0 +1,76 @@
+:root {
+    --text-color: white;
+    --border-style: 1px solid rgb(255, 97, 6);
+    --font-family: "Roboto Mono", monospace;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #161b22;
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    align-items: center;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    padding: 5px;
+}
+
+body * {
+    width: 90%;
+    margin-bottom: 4px;
+    background: inherit;
+}
+
+.title {
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.7);
+}
+
+.title h2 {
+    margin: 0;
+    font-size: 25px;
+}
+
+p {
+    font-size: 16px;
+    text-align: start;
+}
+
+.token-form {
+
+}
+
+.token-form * {
+    width: 100%;
+}
+
+.token-form input {
+    background: inherit;
+    color: var(--text-color);
+    text-align: start;
+    border: var(--border-style);
+    border-radius: 8px;
+    font-size: 20px;
+    height: 30px;
+}
+
+button {
+    border-radius: 20px;
+    border: var(--border-style);
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+button:hover {
+    cursor: pointer;
+}
