@@ -10,10 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTokenButton.addEventListener('click', () => {
         const tokenInput = document.getElementById('token').value;
         if (tokenInput) {
-            console.log('khra', tokenInput);
             chrome.storage.local.set({'token': tokenInput}, () => {
                 if (chrome.runtime.lastError) {
-                    console.error("Error setting item:", chrome.runtime.lastError);
+                    console.error("Error setting token:", chrome.runtime.lastError);
                 }
             });
             loadModules(api, tokenInput);
