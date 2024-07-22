@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTokenButton.addEventListener('click', () => {
         const tokenInput = document.getElementById('token').value;
         if (tokenInput) {
+            console.log('Setting token..');
             chrome.storage.local.set({'token': tokenInput}, () => {
                 if (chrome.runtime.lastError) {
                     console.error("Error setting token:", chrome.runtime.lastError);
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     reloadButton.addEventListener('click', () => {
         chrome.storage.local.get('token', data => {
+            console.log('Loading data..');
             loadModules(api, data.token);
         });
     });

@@ -5,22 +5,24 @@ const api = env.api;
 
 chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.get('token', data => {
-        loadModules(data.token);
+        if (data.token) {
+            loadModules(data.token);
+        }
     })
 });
 
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId.startsWith("noted")) {
-        const moduleId = info.menuItemId.split("-")[1];
-        const content = info.selectionText;
-
+        const unitId = info.menuItemId.split("-")[1];
+        const content = info.selectionText + `\n[Source](${info.pageUrl})`;
         const note = {
             content: content,
         };
 
         chrome.storage.local.get('token', data => {
-            fetch(`${api}/${moduleId}`, {
+            if (!data.token) return;
+            fetch(`${api}/units/${unitId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,11 +30,11 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
                 },
                 body: JSON.stringify(note)
             }).then(response => {
-                console.log(response);
                 if (!response.ok) {
-                    console.error("Failed to add note.");
+                    throw Error('Response error')
                 }
-            }).catch(error => console.log('Error adding note: ', error));
+                // Todo - highlight the selected content in the page
+            });
         })
     }
 });

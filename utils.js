@@ -1,9 +1,5 @@
-export const config = {
-    api: 'http://localhost:8080'
-};
-
-
 export function loadModules(api, token) {
+    if (!token) return;
     chrome.contextMenus.removeAll();
     chrome.contextMenus.create({
         id: "noted",
@@ -16,18 +12,30 @@ export function loadModules(api, token) {
         }
     }).then(response => {
         if (!response.ok) {
-            console.log(response);
             throw new Error('Response was not ok.');
         }
         return response.json();
     }).then(modules => {
         modules.forEach(module => {
-            chrome.contextMenus.create({
-                id: `noted-${module.id}`,
-                parentId: 'noted',
-                title: module.name,
-                contexts: ['selection']
-            });
+            fetch(`${api}/${module.id}/units`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => {
+                if (!response) {
+                    throw Error('Response error');
+                }
+                return response.json();
+            }).then(units => {
+                units.forEach(unit => {
+                    chrome.contextMenus.create({
+                        id: `noted-${unit.id}`,
+                        parentId: 'noted',
+                        title: unit.name,
+                        contexts: ['selection']
+                    });
+                })
+            })
         })
     });
 }
