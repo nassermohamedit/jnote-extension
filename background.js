@@ -1,5 +1,5 @@
 import { env } from './env.js';
-import { loadModules } from './utils.js';
+import { loadModules, sendNote } from './utils.js';
 
 const api = env.api;
 
@@ -13,29 +13,31 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    if (info.menuItemId.startsWith("noted")) {
-        const unitId = info.menuItemId.split("-")[1];
-        const content = info.selectionText + `\n[Source](${info.pageUrl})`;
+    const content = info.selectionText + `\n[Source](${info.pageUrl})`;
+    if (info.menuItemId.startsWith("jnote")) {
+        const elements = info.menuItemId.split('-');
+        const moduleName = elements[1];
+        const unitName = elements[2]
+        const unitId = elements[3];
         const note = {
             content: content,
+            unitId: unitId,
+            moduleName: moduleName,
+            unitName: unitName
         };
-
-        chrome.storage.local.get('token', data => {
-            if (!data.token) return;
-            fetch(`${api}/units/${unitId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${data.token}`
-                },
-                body: JSON.stringify(note)
-            }).then(response => {
-                if (!response.ok) {
-                    throw Error('Response error')
-                }
-                // Todo - highlight the selected content in the page
-            });
-        })
+        chrome.tabs.sendMessage(tab.id, {
+            action: "edit-note",
+            note: note
+        });
     }
 });
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === "send-note") {
+        const note = message.note;
+        sendNote(api, note);
+    };
+})
+
+
 

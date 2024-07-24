@@ -1,0 +1,64 @@
+.editor {
+    width: 400px;
+    height: 500px;
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgb(0, 0, 0);
+}
+
+.editor textarea {
+    height: 90%;
+    width: 97%;
+    font-family: "Roboto Mono", monospace;
+    font-size: 12px;
+    color: black;
+    border: none;
+    outline: none;
+    resize: none;
+    border-radius: 0px;
+    border-bottom: 1px solid black;
+    margin: 10px;
+    margin-bottom: 0px;
+}
+
+.footer {
+    display: flex;
+    justify-content: end;
+}
+
+.footer button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 7px;
+
+}
+
+.submit {
+    border: none;
+    background: rgb(149, 255, 149);
+}
+
+.submit:hover {
+    background: rgb(33, 255, 33);
+}
+
+.cancel {
+    background: white;
+}
+
+.cancel:hover {
+    background: black;
+    color: white;
+}
