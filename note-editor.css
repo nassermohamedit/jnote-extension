@@ -30,10 +30,17 @@
     margin-bottom: 0px;
 }
 
+.error-message {
+    width: 97%;
+    color: black;
+    font-size: 14px;
+}
+
 .footer {
     display: flex;
     justify-content: end;
 }
+
 
 .footer button {
     margin-top: 10px;
@@ -42,7 +49,6 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     margin: 7px;
-
 }
 
 .submit {

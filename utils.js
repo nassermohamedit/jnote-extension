@@ -46,23 +46,27 @@ export function loadModules(api, token) {
     });
 }
 
-const sendNote = (api, note) => { 
+export const sendNote = (api, note, postSendHandler) => {
     chrome.storage.local.get('token', data => {
-        if (!data.token) return;
-        fetch(`${api}/units/${note.unitId}`, {
+        if (data.token)
+            doSend(api, note, data.token).then(success => postSendHandler(success));
+    })
+}
+
+const doSend = async (api, note, token) => {
+    try {
+        const response = await fetch(`${api}/units/${note.unitId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${data.token}`
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 content: note.content
             })
-        }).then(response => {
-            if (!response.ok) {
-                console.log('Response error: ', response)
-            }
-            // Todo - highlight the selected content in the page
         });
-    })
-}
+        return !!response.ok;
+    } catch (error) {
+        return false;
+    }
+};

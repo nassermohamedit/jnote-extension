@@ -13,7 +13,7 @@ chrome.runtime.onInstalled.addListener(() => {
 
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
-    const content = info.selectionText + `\n[Source](${info.pageUrl})`;
+    const content = info.selectionText
     if (info.menuItemId.startsWith("jnote")) {
         const elements = info.menuItemId.split('-');
         const moduleName = elements[1];
@@ -23,7 +23,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             content: content,
             unitId: unitId,
             moduleName: moduleName,
-            unitName: unitName
+            unitName: unitName,
+            sourceUrl: info.pageUrl
         };
         chrome.tabs.sendMessage(tab.id, {
             action: "edit-note",
@@ -35,9 +36,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "send-note") {
         const note = message.note;
-        sendNote(api, note);
-    };
+        note.content = note.content + `\n[Source](${note.sourceUrl})`;
+        sendNote(api, note, (isSent) => sendResponse({success: isSent}));
+    }
+    return true;
 })
-
-
-
