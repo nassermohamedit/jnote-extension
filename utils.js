@@ -58,8 +58,10 @@ const doSend = async (api, note, token) => {
                 content: note.content
             })
         });
+        console.log(response);
         return !!response.ok;
     } catch (error) {
+        console.log(error);
         return false;
     }
 };

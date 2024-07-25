@@ -1,8 +1,12 @@
-.jnote {
+:host {
+    all: initial;
     position: fixed;
     bottom: 10px;
     right: 10px;
+    z-index: 10000 !important;
 }
+
+.jnote {}
 
 .setting {
     display: flex;
@@ -18,7 +22,6 @@
     color: #000000;
 }
 
-
 .editor {
     width: 400px;
     height: 500px;
@@ -33,13 +36,9 @@
     border: 1px solid #000000;
 }
 
-.editor .head {
+.editor .head {}
 
-}
-
-.editor .info {
-
-}
+.editor .info {}
 
 .editor textarea {
     height: 90%;
@@ -67,7 +66,6 @@
     justify-content: end;
 }
 
-
 .footer button {
     margin-top: 10px;
     padding: 10px 20px;
@@ -94,3 +92,53 @@
     background: black;
     color: white;
 }
+
+ .gg-chevron-down {
+box-sizing: border-box;
+position: relative;
+display: block;
+transform: scale(var(--ggs,1));
+width: 22px;
+height: 22px;
+border: 2px solid transparent;
+border-radius: 100px
+}
+
+.gg-chevron-down::after {
+content: "";
+display: block;
+box-sizing: border-box;
+position: absolute;
+width: 10px;
+height: 10px;
+border-bottom: 2px solid;
+border-right: 2px solid;
+transform: rotate(45deg);
+left: 4px;
+top: 2px
+} 
+
+.gg-chevron-up-o {
+box-sizing: border-box;
+position: relative;
+display: block;
+transform: scale(var(--ggs,1));
+width: 22px;
+height: 22px;
+border: 2px solid;
+border-radius: 100px
+}
+
+.gg-chevron-up-o::after {
+content: "";
+display: block;
+box-sizing: border-box;
+position: absolute;
+width: 6px;
+height: 6px;
+border-top: 2px solid;
+border-right: 2px solid;
+transform: rotate(-45deg);
+left: 6px;
+bottom: 5px
+} 

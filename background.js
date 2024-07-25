@@ -30,7 +30,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "send-note") {
         const note = message.note;
-        note.content = note.content + `\n[Source](${note.sourceUrl})`;
+        note.content = note.content + `\n[Source](${sender.url})`;
         sendNote(api, note, (isSent) => sendResponse({success: isSent}));
     }
     return true;

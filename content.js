@@ -1,25 +1,46 @@
-const editorCssLink = document.createElement("link");
-editorCssLink.rel = "stylesheet";
-editorCssLink.href = chrome.runtime.getURL("note-editor.css");
-document.head.appendChild(editorCssLink);
+const shadowHost = document.createElement('div');
+shadowHost.id = 'host';
+document.body.appendChild(shadowHost);
+const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
 
-const JNote = createElement('div', 'jnote', document.body);
-const setting = createElement("div", "setting", JNote);
-const hide = createElement("i", "fa-solid fa-angle-down switch", setting);
-const show = createElement("i", "fa-solid fa-angle-up switch", setting);
-const editor = createElement("div", "editor", JNote);
-const head = createElement('div', 'head', editor);
-const textArea = createElement('textarea', '', editor);
-textArea.placeholder = 'Write a note or capture one from this page to edit.';
-const errorMessage = createElement("div", "error-message", editor);
-const unitIdInput = createElement("input", "unitIdInput", editor);
-errorMessage.style.display = "none";
-const footer = createElement('div', "footer", editor);
-const submit = createElement('button', 'submit', footer);
-submit.textContent = "Submit";
+const styles = document.createElement("link");
+styles.rel = "stylesheet";
+styles.href = chrome.runtime.getURL("note-editor.css");
+
+shadowRoot.appendChild(styles);
+
+const JNote = document.createElement('div');
+JNote.className = 'jnote';
+JNote.innerHTML = `
+    <div class="setting">
+        <i class="gg-chevron-down switch hide"></i>
+        <i class="gg-chevron-up-o switch show" style="display: none;"></i>
+    </div>
+    <div class="editor">
+        <div class="head"></div>
+        <textarea placeholder="Write a note or capture one from this page to edit."></textarea>
+        <div class="error-message" style="display: none;"></div>
+        <input class="unitIdInput" type="text">
+        <div class="footer">
+            <button class="submit">Submit</button>
+        </div>
+    </div>
+`;
+
+shadowRoot.appendChild(JNote);
+
+const setting = JNote.querySelector('.setting');
+const hide = setting.querySelector('.hide');
+const show = setting.querySelector('.show');
+const editor = JNote.querySelector('.editor');
+const textArea = editor.querySelector('textarea');
+const errorMessage = editor.querySelector('.error-message');
+const unitIdInput = editor.querySelector('.unitIdInput');
+const submit = editor.querySelector('.submit');
+
 submit.addEventListener('click', () => {
     const note = {
-        content: textArea.textContent,
+        content: textArea.value,
         unitId: unitIdInput.value
     }
     const message = {
@@ -31,34 +52,31 @@ submit.addEventListener('click', () => {
             if (response.success) {
                 console.log("send success!");
             } else {
-                editor.submitError("Send failed. Please verify your token.");
+                errorMessage.textContent = "Send failed. Please verify your token.";
+                errorMessage.style.display = "block";
             }
         }
     );
 });
-show.style.display = 'none';
+
 hide.addEventListener('click', () => {
     editor.style.display = 'none';
     hide.style.display = 'none';
     show.style.display = 'block';
 });
-show.style.display = 'none';
+
 show.addEventListener('click', () => {
     editor.style.display = 'flex';
     hide.style.display = 'block';
     show.style.display = 'none';
 });
 
-
-
-
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
         if (request.action === 'edit-note') {
             const note = request.note.content;
             const text = textArea.textContent;
-            textArea.textContent = (text)?`${text}\n\n${note}`: note;
-            
+            textArea.textContent = (text) ? `${text}\n\n${note}` : note;
         }
     }
 );
