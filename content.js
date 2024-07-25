@@ -19,8 +19,9 @@ JNote.innerHTML = `
     <div class="editor">
         <div class="head"></div>
         <textarea placeholder="Write a note or capture one from this page to edit."></textarea>
+        <br>
         <div class="error-message" style="display: none;"></div>
-        <input class="unitIdInput" type="text">
+        <input placeholder="Enter the target unit id" class="unit-input" type="text">
         <div class="footer">
             <button class="submit">Submit</button>
         </div>
@@ -35,7 +36,7 @@ const show = setting.querySelector('.show');
 const editor = JNote.querySelector('.editor');
 const textArea = editor.querySelector('textarea');
 const errorMessage = editor.querySelector('.error-message');
-const unitIdInput = editor.querySelector('.unitIdInput');
+const unitIdInput = editor.querySelector('.unit-input');
 const submit = editor.querySelector('.submit');
 
 submit.addEventListener('click', () => {
