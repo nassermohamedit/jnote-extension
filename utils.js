@@ -1,11 +1,4 @@
 export function loadModules(api, token) {
-    if (!token) return;
-    chrome.contextMenus.removeAll();
-    chrome.contextMenus.create({
-        id: "jnote",
-        title: "Note It",
-        contexts: ["selection"],
-    });
     fetch(api, {
         headers: {
             'Authorization': `Bearer ${token}`
