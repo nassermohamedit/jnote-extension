@@ -80,8 +80,9 @@ chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
         if (request.action === 'edit-note') {
             const note = request.note.content;
-            const text = textArea.textContent;
-            textArea.textContent = (text) ? `${text}\n\n${note}` : note;
+            const text = textArea.value;
+            textArea.value = (text.length > 0) ? `${text}\n\n${note}` : note;
+            console.log(textArea.textContent);
         }
     }
 );
