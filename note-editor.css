@@ -3,15 +3,17 @@
     position: fixed;
     bottom: 10px;
     right: 10px;
-    z-index: 10000 !important;
+    z-index: 100000000 !important;
     background: springgreen;
 }
+
 
 .jnote {
     box-shadow: 0 0 0 2px black;
 }
 
 .setting {
+    background: springgreen;
     display: flex;
     flex-direction: row;
     justify-content: end;
@@ -85,7 +87,7 @@
 }
 
 .submit {
-    box-shadow: 0 0 0 1px black;
+    box-shadow: 0 0 0 1px black !important;
     color: black;
     font-weight: bold;
     background: springgreen;

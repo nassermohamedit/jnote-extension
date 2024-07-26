@@ -14,7 +14,7 @@ JNote.className = 'jnote';
 JNote.innerHTML = `
     <div class="setting">
         <i class="gg-chevron-down switch hide"></i>
-        <i class="gg-chevron-up-o switch show" style="display: none;"></i>
+        <i class="gg-chevron-up-o switch show"></i>
     </div>
     <div class="editor">
         <div class="head"></div>
@@ -38,6 +38,10 @@ const textArea = editor.querySelector('textarea');
 const errorMessage = editor.querySelector('.error-message');
 const unitIdInput = editor.querySelector('.unit-input');
 const submit = editor.querySelector('.submit');
+
+editor.style.display = 'none';
+hide.style.display = 'none';
+show.style.display = 'block';
 
 submit.addEventListener('click', () => {
     const note = {
