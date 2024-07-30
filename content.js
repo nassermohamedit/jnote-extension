@@ -44,6 +44,11 @@ hide.style.display = 'none';
 show.style.display = 'block';
 
 submit.addEventListener('click', () => {
+    if (!unitIdInput.value || unitIdInput.value.length <= 0) {
+        errorMessage.textContent = "Please provide a unit id";
+        errorMessage.style.display = "block";
+        return;
+    }
     const note = {
         content: textArea.value,
         unitId: unitIdInput.value
@@ -55,9 +60,10 @@ submit.addEventListener('click', () => {
     chrome.runtime.sendMessage(message).then(
         response => {
             if (response.success) {
-                console.log("send success!");
+                errorMessage.textContent = "Sent";
+                errorMessage.style.display = "block";
             } else {
-                errorMessage.textContent = "Send failed. Please verify your token.";
+                errorMessage.textContent = "Send failed. Please verify or update your token.";
                 errorMessage.style.display = "block";
             }
         }
@@ -70,10 +76,14 @@ hide.addEventListener('click', () => {
     show.style.display = 'block';
 });
 
-show.addEventListener('click', () => {
+function showEditor() {
     editor.style.display = 'flex';
     hide.style.display = 'block';
     show.style.display = 'none';
+}
+
+show.addEventListener('click', () => {
+    showEditor();
 });
 
 chrome.runtime.onMessage.addListener(
@@ -82,7 +92,7 @@ chrome.runtime.onMessage.addListener(
             const note = request.note.content;
             const text = textArea.value;
             textArea.value = (text.length > 0) ? `${text}\n\n${note}` : note;
-            console.log(textArea.textContent);
+            showEditor();
         }
     }
 );

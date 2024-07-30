@@ -28,6 +28,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log(sender);
     if (message.action === "send-note") {
         const note = message.note;
         note.content = note.content + `\n[Source](${sender.url})`;

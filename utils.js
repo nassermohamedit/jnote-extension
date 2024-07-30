@@ -43,6 +43,9 @@ export const sendNote = (api, note, postSendHandler) => {
     chrome.storage.local.get('token', data => {
         if (data.token)
             doSend(api, note, data.token).then(success => postSendHandler(success));
+        else {
+            console.log("no token found");
+        }
     })
 }
 
